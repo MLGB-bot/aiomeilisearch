@@ -3,6 +3,7 @@ from typing import Any, Dict, Generator, List, Optional, Union
 from aiomeilisearch.config import Config
 from datetime import datetime
 from aiomeilisearch._http_client import HttpClient
+from aiomeilisearch.document import Document
 
 class Index():
     """
@@ -21,6 +22,8 @@ class Index():
         self.primary_key = primary_key
         self.created_at = self._iso_to_date_time(created_at)
         self.updated_at = self._iso_to_date_time(updated_at)
+        # document
+        self.document = Document(config=config, index_uid=uid)
 
     @staticmethod
     def _iso_to_date_time(iso_date: Optional[Union[datetime, str]]) -> Optional[datetime]:
@@ -107,4 +110,37 @@ class Index():
         #     return False
         except:
             raise
+
+    # documents handler
+    async def get_document(self, document_id: str) -> Dict:
+        return await self.document.get(document_id)
+
+    async def get_documents(self, offset: int=0, limit: int=20, attributes_to_retrieve: List=None, **kwargs) -> List:
+        return await self.document.mget(offset, limit, attributes_to_retrieve, **kwargs)
+
+    async def add_documents(
+        self,
+        documents: List[Dict[str, Any]],
+        primary_key: Optional[str] = None
+    ) -> Dict[str, int]:
+        return await self.document.add(documents, primary_key)
+
+    async def update_documents(
+        self,
+        documents: List[Dict[str, Any]],
+        primary_key: Optional[str] = None
+    ) -> Dict[str, int]:
+        return await self.document.update(documents, primary_key)
+
+    async def delete_document(self, document_id: str) -> Dict[str, int]:
+        return await self.document.delete(document_id)
+
+    async def delete_documents(self, document_ids: List[str]) -> Dict[str, int]:
+        return await self.document.delete_batch(document_ids)
+
+    async def delete_all_documents(self) -> Dict[str, int]:
+        return await self.document.delete_all()
+
+    async def search(self, query: str, **kwargs) -> Dict[str, Any]:
+        return await self.document.search(query, **kwargs)
 

@@ -19,13 +19,15 @@ class HttpClient():
         except:
             return await response.content
 
-    async def get(self, path,):
+    async def get(self, path, args=None):
         url = urljoin(self.config.url, path)
         params = {}
         if self.config.timeout:
             params['timeout'] = self.config.timeout
         if self.headers:
             params['headers'] = self.headers
+        if args:
+            params['args'] = args
         async with aiohttp.ClientSession() as session:
             async with session.get(url, **params) as response:
                 data = await self._handle_resp(response)
