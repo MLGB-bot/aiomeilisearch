@@ -4,10 +4,12 @@ from aiomeilisearch.config import Config
 from datetime import datetime
 from aiomeilisearch._http_client import HttpClient
 from aiomeilisearch.document import Document
+from aiomeilisearch.index_setting import Setting, DisplayedAttribute, DistinctAttribute, FilterableAttribute,\
+    RankingRule, SearchableAttribute, SortableAttribute, StopWord, Synonym
 
 class Index():
     """
-
+    https://docs.meilisearch.com/reference/api/indexes.html
     """
     def __init__(self,
                  config: Config,
@@ -166,3 +168,114 @@ class Index():
         """
         path = "/indexes/{0}/stats".format(self.uid)
         return await self.http.get(path)
+
+    # setting
+    def settings(self):
+        return Setting(config=self.config, index_uid=self.uid)
+
+    async def get_settings(self) -> Dict[str, Any]:
+        return await Setting(config=self.config, index_uid=self.uid).get()
+
+    async def update_settings(self, **params) -> Dict[str, int]:
+        return await Setting(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_settings(self):
+        return await Setting(config=self.config, index_uid=self.uid).reset()
+
+    def displayed_attributes(self):
+        return DisplayedAttribute(config=self.config, index_uid=self.uid)
+
+    async def get_displayed_attributes(self) -> Dict[str, Any]:
+        return await DisplayedAttribute(config=self.config, index_uid=self.uid).get()
+
+    async def update_displayed_attributes(self, **params) -> Dict[str, int]:
+        return await DisplayedAttribute(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_displayed_attributes(self):
+        return await DisplayedAttribute(config=self.config, index_uid=self.uid).reset()
+
+    def distinct_attribute(self):
+        return DistinctAttribute(config=self.config, index_uid=self.uid)
+
+    async def get_distinct_attribute(self) -> Dict[str, Any]:
+        return await DistinctAttribute(config=self.config, index_uid=self.uid).get()
+
+    async def update_distinct_attribute(self, **params) -> Dict[str, int]:
+        return await DistinctAttribute(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_distinct_attribute(self):
+        return await DistinctAttribute(config=self.config, index_uid=self.uid).reset()
+
+    def filterable_attributes(self):
+        return FilterableAttribute(config=self.config, index_uid=self.uid)
+
+    async def get_filterable_attributes(self) -> Dict[str, Any]:
+        return await FilterableAttribute(config=self.config, index_uid=self.uid).get()
+
+    async def update_filterable_attributes(self, **params) -> Dict[str, int]:
+        return await FilterableAttribute(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_filterable_attributes(self):
+        return await FilterableAttribute(config=self.config, index_uid=self.uid).reset()
+
+    def ranking_rules(self):
+        return RankingRule(config=self.config, index_uid=self.uid)
+
+    async def get_ranking_rules(self) -> Dict[str, Any]:
+        return await RankingRule(config=self.config, index_uid=self.uid).get()
+
+    async def update_ranking_rules(self, **params) -> Dict[str, int]:
+        return await RankingRule(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_ranking_rules(self):
+        return await RankingRule(config=self.config, index_uid=self.uid).reset()
+
+    def searchable_attributes(self):
+        return SearchableAttribute(config=self.config, index_uid=self.uid)
+
+    async def get_searchable_attributes(self) -> Dict[str, Any]:
+        return await SearchableAttribute(config=self.config, index_uid=self.uid).get()
+
+    async def update_searchable_attributes(self, **params) -> Dict[str, int]:
+        return await SearchableAttribute(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_searchable_attributes(self):
+        return await SearchableAttribute(config=self.config, index_uid=self.uid).reset()
+
+    def sortable_attributes(self):
+        return SortableAttribute(config=self.config, index_uid=self.uid)
+
+    async def get_sortable_attributes(self) -> Dict[str, Any]:
+        return await SortableAttribute(config=self.config, index_uid=self.uid).get()
+
+    async def update_sortable_attributes(self, **params) -> Dict[str, int]:
+        return await SortableAttribute(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_sortable_attributes(self):
+        return await SortableAttribute(config=self.config, index_uid=self.uid).reset()
+
+    def stop_words(self):
+        return StopWord(config=self.config, index_uid=self.uid)
+
+    async def get_stop_words(self) -> Dict[str, Any]:
+        return await StopWord(config=self.config, index_uid=self.uid).get()
+
+    async def update_stop_words(self, **params) -> Dict[str, int]:
+        return await StopWord(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_stop_words(self):
+        return await StopWord(config=self.config, index_uid=self.uid).reset()
+
+    def synonyms(self):
+        return Synonym(config=self.config, index_uid=self.uid)
+
+    async def get_synonyms(self) -> Dict[str, Any]:
+        return await Synonym(config=self.config, index_uid=self.uid).get()
+
+    async def update_synonyms(self, **params) -> Dict[str, int]:
+        return await Synonym(config=self.config, index_uid=self.uid).update(**params)
+
+    async def reset_synonyms(self):
+        return await Synonym(config=self.config, index_uid=self.uid).reset()
+
+    # setting EOF
