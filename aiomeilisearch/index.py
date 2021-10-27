@@ -161,7 +161,7 @@ class Index():
         return await self.http.get(path)
 
     # stats
-    async def get_stats(self) -> Dict[str: Any]:
+    async def get_stats(self) -> Dict[str, Any]:
         """
         Get stats of an index.
         :return: An instance of Index containing the information of the retrieved or newly created index.
