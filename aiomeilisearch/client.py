@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 from aiomeilisearch.index import Index
 from aiomeilisearch.config import Config
 from aiomeilisearch._http_client import HttpClient
+from aiomeilisearch.error import AioMeiliSearchError, AioMeiliSearchApiError
 
 class Client():
     """
@@ -114,13 +115,10 @@ class Client():
         try:
             await self.delete_index(uid)
             return True
-        # todo 定义异常
-        # except MeiliSearchApiError as error:
-        #     if error.error_code != "index_not_found":
-        #         raise error
-        #     return False
-        except:
-            raise
+        except AioMeiliSearchApiError as error:
+            if error.error_code != "index_not_found":
+                raise error
+            return False
 
     async def get_or_create_index(self, uid: str, options: Optional[Dict[str, Any]] = None) -> Index:
         """
@@ -131,13 +129,10 @@ class Client():
         """
         try:
             index_instance = await self.get_index(uid)
-        # todo error
-        # except MeiliSearchApiError as err:
-        #     if err.error_code != 'index_not_found':
-        #         raise err
-        #     index_instance = await self.create_index(uid, options)
-        except:
-            raise
+        except AioMeiliSearchApiError as err:
+            if err.error_code != 'index_not_found':
+                raise err
+            index_instance = await self.create_index(uid, options)
         return index_instance
 
     async def get_all_stats(self) -> Dict[str, Any]:
@@ -173,9 +168,8 @@ class Client():
         """
         try:
             await self.health()
-        # todo
-        # except MeiliSearchError:
-        #     return False
+        except AioMeiliSearchError:
+            return False
         except:
             return False
         return True

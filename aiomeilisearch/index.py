@@ -6,6 +6,7 @@ from aiomeilisearch._http_client import HttpClient
 from aiomeilisearch.document import Document
 from aiomeilisearch.index_setting import Setting, DisplayedAttribute, DistinctAttribute, FilterableAttribute,\
     RankingRule, SearchableAttribute, SortableAttribute, StopWord, Synonym
+from aiomeilisearch.error import AioMeiliSearchApiError
 
 class Index():
     """
@@ -80,9 +81,6 @@ class Index():
                           if primaryKey already exists, will raise Error
         :return:
         """
-        if not options:
-            # todo raise error
-            return
         path = "/indexes/{0}".format(self.uid)
         index_dict = await self.http.put(path, json_=options)
         self.primary_key = index_dict['primaryKey']
@@ -105,11 +103,10 @@ class Index():
         try:
             await self.delete()
             return True
-        # todo raise
-        # except MeiliSearchApiError as error:
-        #     if error.error_code != "index_not_found":
-        #         raise error
-        #     return False
+        except AioMeiliSearchApiError as error:
+            if error.error_code != "index_not_found":
+                raise error
+            return False
         except:
             raise
 
