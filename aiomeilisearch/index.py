@@ -144,3 +144,17 @@ class Index():
     async def search(self, query: str, **kwargs) -> Dict[str, Any]:
         return await self.document.search(query, **kwargs)
 
+    async def get_update_status(self, update_id: int) -> Dict[str, Any]:
+        return await self.document.update_status(update_id)
+
+    async def get_all_update_status(self)-> List[Dict[str, Any]]:
+        return await self.document.all_update_status()
+
+    # stats
+    async def get_stats(self) -> Dict[str, Any]:
+        """
+        Get stats of an index.
+        :return: An instance of Index containing the information of the retrieved or newly created index.
+        """
+        path = "/indexes/{0}/stats".format(self.uid)
+        return await self.http.get(path)

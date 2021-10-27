@@ -157,8 +157,7 @@ class Client():
         :param uid: UID of the index
         :return: An instance of Index containing the information of the retrieved or newly created index.
         """
-        path = "/indexes/{0}/stats".format(uid)
-        return await self.http.get(path)
+        return await Index(self.config, uid).get_stats()
 
     async def health(self) -> Dict[str, str]:
         """
