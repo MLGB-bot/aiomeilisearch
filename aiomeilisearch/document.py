@@ -142,17 +142,3 @@ class Document():
                 payload['sort'] = ','.join(payload['sort'])
             return await self.http.get(path, args=payload)
 
-    async def update_status(self, update_id: int) -> Dict[str, Any]:
-        """
-        Get the status of an update in a given index.
-
-        :param update_id: the result param "updateId" in self.update()/self.add()/self.delete*()
-        :return:
-        """
-        path = "/indexes/{index_uid}/updates/{update_id}".format(index_uid=self.index_uid, update_id=update_id)
-        return await self.http.get(path)
-
-    async def all_update_status(self) -> List[Dict[str, Any]]:
-        path = "/indexes/{index_uid}/updates".format(index_uid=self.index_uid)
-        return await self.http.get(path)
-

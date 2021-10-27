@@ -145,13 +145,21 @@ class Index():
         return await self.document.search(query, **kwargs)
 
     async def get_update_status(self, update_id: int) -> Dict[str, Any]:
-        return await self.document.update_status(update_id)
+        """
+        Get the status of an update in a given index.
+
+        :param update_id: the result param "updateId" in self.update()/self.add()/self.delete*()
+        :return:
+        """
+        path = "/indexes/{uid}/updates/{update_id}".format(uid=self.uid, update_id=update_id)
+        return await self.http.get(path)
 
     async def get_all_update_status(self)-> List[Dict[str, Any]]:
-        return await self.document.all_update_status()
+        path = "/indexes/{uid}/updates".format(uid=self.uid)
+        return await self.http.get(path)
 
     # stats
-    async def get_stats(self) -> Dict[str, Any]:
+    async def get_stats(self) -> Dict[str: Any]:
         """
         Get stats of an index.
         :return: An instance of Index containing the information of the retrieved or newly created index.
