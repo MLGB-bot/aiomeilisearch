@@ -72,7 +72,7 @@ class Index():
         self.updated_at = self._iso_to_date_time(index_dict['updatedAt'])
         return self
 
-    async def update(self, **options: Optional[Dict[str, Any]]) -> 'Index':
+    async def update(self, primary_key, **options: Optional[Dict[str, Any]]) -> 'Index':
         """
         Update an index.
         :param options:
@@ -82,7 +82,9 @@ class Index():
         :return:
         """
         path = "/indexes/{0}".format(self.uid)
-        index_dict = await self.http.put(path, json_=options)
+        payload = options if options else {}
+        if primary_key: payload['primaryKey'] = primary_key
+        index_dict = await self.http.put(path, json_=payload)
         self.primary_key = index_dict['primaryKey']
         self.created_at = self._iso_to_date_time(index_dict['createdAt'])
         self.updated_at = self._iso_to_date_time(index_dict['updatedAt'])
@@ -111,11 +113,11 @@ class Index():
             raise
 
     # documents handler
-    async def get_document(self, document_id: str) -> Dict:
+    async def get_document(self, document_id: Union[int, str] ) -> Dict:
         return await self.document.get(document_id)
 
-    async def get_documents(self, offset: int=0, limit: int=20, attributes_to_retrieve: List=None, **kwargs) -> List:
-        return await self.document.mget(offset, limit, attributes_to_retrieve, **kwargs)
+    async def get_documents(self, kwargs) -> List:
+        return await self.document.mget(**kwargs)
 
     async def add_documents(
         self,
@@ -131,10 +133,10 @@ class Index():
     ) -> Dict[str, int]:
         return await self.document.update(documents, primary_key)
 
-    async def delete_document(self, document_id: str) -> Dict[str, int]:
+    async def delete_document(self, document_id: Union[int, str]) -> Dict[str, int]:
         return await self.document.delete(document_id)
 
-    async def delete_documents(self, document_ids: List[str]) -> Dict[str, int]:
+    async def delete_documents(self, document_ids: List[Union[int, str]]) -> Dict[str, int]:
         return await self.document.delete_batch(document_ids)
 
     async def delete_all_documents(self) -> Dict[str, int]:

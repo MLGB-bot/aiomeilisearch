@@ -33,7 +33,7 @@ class HttpClient():
         if response.content_type == 'application/json':
             resp = await response.json()
         else:
-            resp = await response.content
+            resp = response.content
         try:
             response.raise_for_status()
         except aiohttp.client_exceptions.ClientResponseError as err:
@@ -49,7 +49,7 @@ class HttpClient():
         if self.headers:
             params['headers'] = self.headers
         if args:
-            params['args'] = args
+            params['params'] = args
         async with aiohttp.ClientSession() as session:
             async with session.get(url, **params) as response:
                 return await self._handle_resp(response)

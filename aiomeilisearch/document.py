@@ -12,7 +12,7 @@ class Document():
         self.index_uid = index_uid
         self.http = HttpClient(self.config)
 
-    async def get(self, document_id: str) -> Dict:
+    async def get(self, document_id: Union[int, str]) -> Dict:
         """
         Get one document
         """
@@ -74,11 +74,11 @@ class Document():
                 index_uid=self.index_uid, primary_key=primary_key)
         return await self.http.put(path, json_=documents)
 
-    async def delete(self, document_id: str) -> Dict[str, int]:
+    async def delete(self, document_id: Union[int, str]) -> Dict[str, int]:
         path = "/indexes/{index_uid}/documents/{document_id}".format(index_uid=self.index_uid, document_id=document_id)
         return await self.http.delete(path)
 
-    async def delete_batch(self, document_ids: List[str]) -> Dict[str, int]:
+    async def delete_batch(self, document_ids: List[Union[int, str]]) -> Dict[str, int]:
         path = "/indexes/{index_uid}/documents/delete-batch".format(index_uid=self.index_uid)
         return await self.http.post(path, document_ids)
 
