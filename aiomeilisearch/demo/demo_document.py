@@ -36,13 +36,17 @@ class DemoDocument(object):
         print(document)
 
     async def demo_add(self):
-        movies = [
-            {
-                "id": i,
-                "title": "title {0}".format(i)
-            } for i in range(10)
-        ]
-        await client.index('movies').add_documents(movies)
+        # movies = [
+        #     {
+        #         "id": i,
+        #         "title": "title {0}".format(i)
+        #     } for i in range(10)
+        # ]
+        import json
+        with open('movies.json', 'r') as f:
+            datas = f.read()
+            movies = json.loads(datas)
+            await client.index('movies').add_documents(movies)
 
     async def delete_document(self, _id):
         print( await client.index('movies').delete_document(_id) )
@@ -61,5 +65,5 @@ if __name__ == '__main__':
     # loop.run_until_complete(t.delete_document(0))
     # loop.run_until_complete(t.delete_documents( [1,2,3] ))
     # loop.run_until_complete(t.delete_all_documents( ))
-    loop.run_until_complete(t.get_documents())
-    # loop.run_until_complete(t.demo_add())
+    # loop.run_until_complete(t.get_documents())
+    loop.run_until_complete(t.demo_add())

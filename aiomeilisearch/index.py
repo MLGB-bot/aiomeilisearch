@@ -142,7 +142,24 @@ class Index():
     async def delete_all_documents(self) -> Dict[str, int]:
         return await self.document.delete_all()
 
-    async def search(self, query: str, **kwargs) -> Dict[str, Any]:
+    async def search(self, query: str, *args: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+        """
+        :param query: str
+        :param args: To be compatible with official website demo, allow :
+
+                search('Batman', {
+                  'facetsDistribution': ['genres'],
+                  'attributesToRetrieve': ['overview', 'title']
+                })
+
+                search('Batman', facetsDistribution=['genres'], attributesToRetrieve=['overview', 'title'])
+
+        :param kwargs:
+        :return:
+        """
+        if args and len(args) == 1:
+            if isinstance(args[0], dict):
+                kwargs = args[0]
         return await self.document.search(query, **kwargs)
 
     async def get_update_status(self, update_id: int) -> Dict[str, Any]:
@@ -211,8 +228,18 @@ class Index():
     async def get_filterable_attributes(self) -> Dict[str, Any]:
         return await FilterableAttribute(config=self.config, index_uid=self.uid).get()
 
-    async def update_filterable_attributes(self, **params) -> Dict[str, int]:
-        return await FilterableAttribute(config=self.config, index_uid=self.uid).update(**params)
+    async def update_filterable_attributes(self, *args, **params) -> Dict[str, int]:
+        """
+        :param args:
+            update_filterable_attributes(["attr1", "attr2"])
+            update_filterable_attributes("attr1", "attr2")
+        :param params:
+        :return:
+        """
+        if args and len(args) == 1:
+            if isinstance(args[0], (tuple, list)):
+                args = args[0]
+        return await FilterableAttribute(config=self.config, index_uid=self.uid).update(*args, **params)
 
     async def reset_filterable_attributes(self):
         return await FilterableAttribute(config=self.config, index_uid=self.uid).reset()
@@ -247,8 +274,19 @@ class Index():
     async def get_sortable_attributes(self) -> Dict[str, Any]:
         return await SortableAttribute(config=self.config, index_uid=self.uid).get()
 
-    async def update_sortable_attributes(self, **params) -> Dict[str, int]:
-        return await SortableAttribute(config=self.config, index_uid=self.uid).update(**params)
+    async def update_sortable_attributes(self, *args, **params) -> Dict[str, int]:
+        """
+
+        :param args:
+            update_sortable_attributes(["attr1", "attr2"])
+            update_sortable_attributes("attr1", "attr2")
+        :param params:
+        :return:
+        """
+        if args and len(args) == 1:
+            if isinstance(args[0], (tuple, list)):
+                args = args[0]
+        return await SortableAttribute(config=self.config, index_uid=self.uid).update(*args, **params)
 
     async def reset_sortable_attributes(self):
         return await SortableAttribute(config=self.config, index_uid=self.uid).reset()

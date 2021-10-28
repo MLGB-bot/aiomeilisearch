@@ -13,14 +13,16 @@ class SettingObject():
     async def get(self) -> Dict[str, Any]:
         return await self.http.get(self.path)
 
-    async def update(self, **params) -> Dict[str, int]:
+    async def update(self, *args, **params) -> Dict[str, int]:
         """
         :return:
             {
               "updateId": 1
             }
         """
-        return await self.http.post(self.path, json_=params or None)
+        # print(args)
+        payload = args or params or None
+        return await self.http.post(self.path, json_=payload)
 
     async def reset(self) -> Dict[str, int]:
         """

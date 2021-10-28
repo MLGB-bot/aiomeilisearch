@@ -86,9 +86,9 @@ class Document():
         path = "/indexes/{index_uid}/documents".format(index_uid=self.index_uid)
         return await self.http.delete(path)
 
-    async def search(self, query: str, offset: int=0, limit: int=20, filter: Any=None,
+    async def search(self, query: str, offset: int=0, limit: int=0, filter: Any=None,
                      facets_distribution: List[str]=None, attributes_to_retrieve: List[str]=None,
-                     attributes_to_crop: List[str]=None, crop_length: int=200,
+                     attributes_to_crop: List[str]=None, crop_length: int=0,
                      attributes_to_highlight: List[str]=None, matches: bool=False, sort: List[str]=None,
                      method="POST", **kwargs) -> Dict[str, Any]:
         """

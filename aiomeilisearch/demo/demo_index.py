@@ -9,7 +9,8 @@ client = aiomeilisearch.Client('http://{0}:{1}'.format(Host, Port), apiKey=Maste
 
 class DemoIndex(object):
     async def get_indexes(self):
-        indexes = await client.get_indexes()
+        # indexes = await client.get_indexes()
+        indexes = await client.get_raw_indexes()
         print("indexes: ", indexes)
         assert isinstance(indexes, list)
 
@@ -33,8 +34,8 @@ class DemoIndex(object):
 if __name__ == '__main__':
     t = DemoIndex()
     loop = asyncio.new_event_loop()
-    # loop.run_until_complete( t.get_indexes() )
+    loop.run_until_complete( t.get_indexes() )
     # loop.run_until_complete( t.get_one_index() )
-    loop.run_until_complete( t.create_index() )
+    # loop.run_until_complete( t.create_index() )
     # loop.run_until_complete( t.update_index() )
     # loop.run_until_complete( t.delete_index() )
