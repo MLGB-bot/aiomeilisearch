@@ -20,7 +20,6 @@ class SettingObject():
               "updateId": 1
             }
         """
-        # print(args)
         payload = args or params or None
         return await self.http.post(self.path, json_=payload)
 
@@ -53,6 +52,15 @@ class DistinctAttribute(SettingObject):
     """
     def __init__(self, config: Config, index_uid: str,) -> None:
         super(DistinctAttribute, self).__init__(config, index_uid, "settings/distinct-attribute")
+
+    async def update(self, attribute) -> Dict[str, int]:
+        """
+        :return:
+            {
+              "updateId": 1
+            }
+        """
+        return await self.http.post(self.path, json_=attribute)
 
 class FilterableAttribute(SettingObject):
     """

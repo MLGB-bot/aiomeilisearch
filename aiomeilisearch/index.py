@@ -192,7 +192,10 @@ class Index():
     async def get_settings(self) -> Dict[str, Any]:
         return await Setting(config=self.config, index_uid=self.uid).get()
 
-    async def update_settings(self, **params) -> Dict[str, int]:
+    async def update_settings(self, *args, **params) -> Dict[str, int]:
+        if args and len(args) == 1:
+            if isinstance(args[0], dict):
+                params = args[0]
         return await Setting(config=self.config, index_uid=self.uid).update(**params)
 
     async def reset_settings(self):
@@ -204,8 +207,18 @@ class Index():
     async def get_displayed_attributes(self) -> Dict[str, Any]:
         return await DisplayedAttribute(config=self.config, index_uid=self.uid).get()
 
-    async def update_displayed_attributes(self, **params) -> Dict[str, int]:
-        return await DisplayedAttribute(config=self.config, index_uid=self.uid).update(**params)
+    async def update_displayed_attributes(self, *args, **params) -> Dict[str, int]:
+        """
+        :param args:
+            update_displayed_attributes(["attr1", "attr2"])
+            update_displayed_attributes("attr1", "attr2")
+        :param params:
+        :return:
+        """
+        if args and len(args) == 1:
+            if isinstance(args[0], (tuple, list)):
+                args = args[0]
+        return await DisplayedAttribute(config=self.config, index_uid=self.uid).update(*args, **params)
 
     async def reset_displayed_attributes(self):
         return await DisplayedAttribute(config=self.config, index_uid=self.uid).reset()
@@ -216,8 +229,8 @@ class Index():
     async def get_distinct_attribute(self) -> Dict[str, Any]:
         return await DistinctAttribute(config=self.config, index_uid=self.uid).get()
 
-    async def update_distinct_attribute(self, **params) -> Dict[str, int]:
-        return await DistinctAttribute(config=self.config, index_uid=self.uid).update(**params)
+    async def update_distinct_attribute(self, attribute) -> Dict[str, int]:
+        return await DistinctAttribute(config=self.config, index_uid=self.uid).update(attribute)
 
     async def reset_distinct_attribute(self):
         return await DistinctAttribute(config=self.config, index_uid=self.uid).reset()
@@ -250,8 +263,18 @@ class Index():
     async def get_ranking_rules(self) -> Dict[str, Any]:
         return await RankingRule(config=self.config, index_uid=self.uid).get()
 
-    async def update_ranking_rules(self, **params) -> Dict[str, int]:
-        return await RankingRule(config=self.config, index_uid=self.uid).update(**params)
+    async def update_ranking_rules(self, *args, **params) -> Dict[str, int]:
+        """
+        :param args:
+            update_ranking_rules(["attr1", "attr2"])
+            update_ranking_rules("attr1", "attr2")
+        :param params:
+        :return:
+        """
+        if args and len(args) == 1:
+            if isinstance(args[0], (tuple, list)):
+                args = args[0]
+        return await RankingRule(config=self.config, index_uid=self.uid).update(*args, **params)
 
     async def reset_ranking_rules(self):
         return await RankingRule(config=self.config, index_uid=self.uid).reset()
@@ -262,8 +285,18 @@ class Index():
     async def get_searchable_attributes(self) -> Dict[str, Any]:
         return await SearchableAttribute(config=self.config, index_uid=self.uid).get()
 
-    async def update_searchable_attributes(self, **params) -> Dict[str, int]:
-        return await SearchableAttribute(config=self.config, index_uid=self.uid).update(**params)
+    async def update_searchable_attributes(self, *args, **params) -> Dict[str, int]:
+        """
+        :param args:
+            update_ranking_rules(["attr1", "attr2"])
+            update_ranking_rules("attr1", "attr2")
+        :param params:
+        :return:
+        """
+        if args and len(args) == 1:
+            if isinstance(args[0], (tuple, list)):
+                args = args[0]
+        return await SearchableAttribute(config=self.config, index_uid=self.uid).update(*args, **params)
 
     async def reset_searchable_attributes(self):
         return await SearchableAttribute(config=self.config, index_uid=self.uid).reset()
@@ -297,8 +330,19 @@ class Index():
     async def get_stop_words(self) -> Dict[str, Any]:
         return await StopWord(config=self.config, index_uid=self.uid).get()
 
-    async def update_stop_words(self, **params) -> Dict[str, int]:
-        return await StopWord(config=self.config, index_uid=self.uid).update(**params)
+    async def update_stop_words(self, *args, **params) -> Dict[str, int]:
+        """
+
+        :param args:
+            update_sortable_attributes(["attr1", "attr2"])
+            update_sortable_attributes("attr1", "attr2")
+        :param params:
+        :return:
+        """
+        if args and len(args) == 1:
+            if isinstance(args[0], (tuple, list)):
+                args = args[0]
+        return await StopWord(config=self.config, index_uid=self.uid).update(*args, **params)
 
     async def reset_stop_words(self):
         return await StopWord(config=self.config, index_uid=self.uid).reset()
@@ -309,7 +353,10 @@ class Index():
     async def get_synonyms(self) -> Dict[str, Any]:
         return await Synonym(config=self.config, index_uid=self.uid).get()
 
-    async def update_synonyms(self, **params) -> Dict[str, int]:
+    async def update_synonyms(self, *args, **params) -> Dict[str, int]:
+        if args and len(args) == 1:
+            if isinstance(args[0], dict):
+                params = args[0]
         return await Synonym(config=self.config, index_uid=self.uid).update(**params)
 
     async def reset_synonyms(self):

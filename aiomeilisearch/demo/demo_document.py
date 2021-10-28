@@ -32,7 +32,7 @@ class DemoDocument(object):
         print(documents)
 
     async def get_document(self):
-        document = await client.index('movies').get_document(287947)
+        document = await client.index('movies').get_document(10430313)
         print(document)
 
     async def demo_add(self):
@@ -66,4 +66,5 @@ if __name__ == '__main__':
     # loop.run_until_complete(t.delete_documents( [1,2,3] ))
     # loop.run_until_complete(t.delete_all_documents( ))
     # loop.run_until_complete(t.get_documents())
-    loop.run_until_complete(t.demo_add())
+    loop.run_until_complete(t.get_document())
+    # loop.run_until_complete(t.demo_add())
