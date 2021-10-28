@@ -7,7 +7,6 @@ MasterKey = '123456'
 
 client = aiomeilisearch.Client('http://{0}:{1}'.format(Host, Port), apiKey=MasterKey, )
 
-
 class DemoDocument(object):
     async def add_documents(self):
         status = await client.index('movies').add_documents([{
