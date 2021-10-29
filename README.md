@@ -101,7 +101,7 @@ Under MIT license.
 
 ## Changelog 
 
-##### version 1.0.0
+##### version 1.0.*
 
 - based with the [version v0.23.0 of MeiliSearch](https://github.com/meilisearch/MeiliSearch/releases/tag/v0.23.0).
 
