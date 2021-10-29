@@ -3,6 +3,8 @@
 
 <p align="center"> The MeiliSearch API asyncio client for Python </p>
 
+[![PyPI version](https://badge.fury.io/py/aiomeilisearch.svg)](https://badge.fury.io/py/aiomeilisearch)
+
 ## Introduction
 
 **AioMeilisearch**  is a asynchronous python client for MeiliSearch.
